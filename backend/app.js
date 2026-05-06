@@ -1,4 +1,5 @@
 import express from 'express';
+import Admin from 'frontend/src/pages/admin.vue';
 
 const app = express();
 const port = 3000;
