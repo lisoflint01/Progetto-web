@@ -1,24 +1,24 @@
 import express from 'express';
-import Admin from 'frontend/src/pages/admin.vue';
+
+const __dirname = import.meta.dirname;
 
 const app = express();
 const port = 3000;
 
 app.get('/login', function(req, res){
-    res.send("nome utente e password");
+    res.sendFile(__dirname+'/pages/login.html');
 })
 
 app.get('/newpatient', function(req, res){
-    res.send("inserisci i tuoi dati per la registrazione");
+    res.sendFile(__dirname+'/pages/newpatient.html');
 })
 
-app.get('/appuntamenti', function(req, res){
-    res.send("1 febbraio, 2 febbraio, 3 febbraio");
+app.get('/appointments', function(req, res){
+    res.sendFile(__dirname+'/pages/appointments.html');
 })
 
 app.get('/admin', function(req, res){
-    res.setHeader('Content-Type', 'text/html');
-    res.send("gestione appuntamenti admin");
+    res.sendFile(__dirname+'/pages/admin.html');
 })
 
 app.use(function(req, res, next){
