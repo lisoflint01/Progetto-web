@@ -7,12 +7,8 @@ app.get('/login', function(req, res){
     res.send("nome utente e password");
 })
 
-app.get('/registrati', function(req, res){
+app.get('/newpatient', function(req, res){
     res.send("inserisci i tuoi dati per la registrazione");
-})
-
-app.get('/pronota', function(req, res){
-    res.send("quando vuoi prenotare?");
 })
 
 app.get('/appuntamenti', function(req, res){
@@ -28,12 +24,6 @@ app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/html');
     res.status(404).send("<b>pagina non trovata, mi dispiace<b>");
 })
-
-// login
-// registrati
-// prenota appuntamento
-// visualizza appuntamenti
-// schermata admin cancella e manipola appuntamenti
 
 app.listen(port, function(){
     console.log("porta" + port);
