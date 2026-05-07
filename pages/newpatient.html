@@ -1,7 +1,40 @@
 <html>
   <body>
-    <div class="align-items-center text-center mt-5 mb-5">
-        <h1 class="title-custom">Registra Paziente</h1>
+    <div>
+        <h1>Registra Paziente</h1>
     </div>
+    <div>
+        <div>
+          <label for="name">Nome</label>
+          <input type="text" name="name" required>
+          <label for="email">Email</label>
+          <input type="email" name="email">
+        </div>
+
+        <div>
+          <label for="surname">Cognome</label>
+          <input type="text" name="surname" required>
+          <label for="tel">Telefono</label>
+          <input type="tel" name="tel" required>
+        </div>
+
+        <div>
+          <label for="cf">Codice fiscale</label>
+          <input type="text" name="cf" required>
+          <label for="date_birth">Data di nasita</label>
+          <input type="date" name="date_birth" required>
+        </div>
+
+        <div>
+          <label for="anamnesis">Anamnesi</label>
+        </div>
+        <div>
+          <textarea type="anamnesis" name="anamnesis"></textarea>
+        </div> 
+
+      </div>
+
+    <button>Conferma</button>
+
   </body>
 </html>

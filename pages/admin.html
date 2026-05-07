@@ -1,7 +1,44 @@
+/*
+import FullCalendar from '@fullcalendar/vue3'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction' 
+
+per giorno:     timeGridDay
+per settimana:  timeGridWeek
+
+
+const calendarOptions = {
+  plugins: [dayGridPlugin, interactionPlugin],
+    initialView: 'timeGridWeek',
+
+  headerToolbar: {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'timeGridWeek,timeGridDay'
+  }
+}
+*/
+
 <html>
   <body>
+
     <div class="align-items-center text-center mt-5 mb-5">
         <h1 class="title-custom">Gestione Admin</h1>
     </div>
+
+    <div>
+      <button>Settimana</button>
+      <button>Giorno</button>
+    </div>
+
+    <div>
+      <FullCalendar :options="calendarOptions">
+    </div>
+
+    <div>
+      <button>Conferma</button>
+      <button>Cancella</button>
+    </div>
+    
   </body>
 </html>
