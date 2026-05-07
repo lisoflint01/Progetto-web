@@ -5,20 +5,26 @@ const __dirname = import.meta.dirname;
 const app = express();
 const port = 3000;
 
+app.use(express.static('public'));
+
 app.get('/login', function(req, res){
-    res.sendFile(__dirname+'/pages/login.html');
+    //res.sendFile(__dirname+'/pages/login.html');
+    res.sendFile(__dirname+'/public/login.html');
 })
 
 app.get('/newpatient', function(req, res){
-    res.sendFile(__dirname+'/pages/newpatient.html');
+    //res.sendFile(__dirname+'/pages/newpatient.html');
+    res.sendFile(__dirname+'/public/newpatient.html');
 })
 
 app.get('/appointments', function(req, res){
-    res.sendFile(__dirname+'/pages/appointments.html');
+    //res.sendFile(__dirname+'/pages/appointments.html');
+    res.sendFile(__dirname+'/public/newpatient.html');
 })
 
 app.get('/admin', function(req, res){
-    res.sendFile(__dirname+'/pages/admin.html');
+    //res.sendFile(__dirname+'/pages/admin.html');
+    res.sendFile(__dirname+'/public/admin.html');
 })
 
 app.use(function(req, res, next){

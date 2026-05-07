@@ -1,0 +1,13 @@
+h1 {
+
+}
+/* Bottoni */
+button{
+    border-radius: 20px;
+}
+
+button[id='calendar']{
+    border-color: 309EB4;
+    
+    background-color: white;
+}
