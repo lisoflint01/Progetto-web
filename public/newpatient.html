@@ -10,26 +10,29 @@
     <div>
         <h1>Registra Paziente</h1>
     </div>
+
+    <form method="POST" action="/showdata">
     <div>
+      
         <div>
           <label for="name">Nome</label>
-          <input type="text" name="name" required>
+          <input type="text" id="name" name="name" required>
           <label for="email">Email</label>
-          <input type="email" name="email">
+          <input type="email" id="email" name="email">
         </div>
 
         <div>
           <label for="surname">Cognome</label>
-          <input type="text" name="surname" required>
+          <input type="text" id="surname" name="surname" required>
           <label for="tel">Telefono</label>
-          <input type="tel" name="tel" required>
+          <input type="tel" id="tel" name="tel" required>
         </div>
 
         <div>
           <label for="cf">Codice fiscale</label>
-          <input type="text" name="cf" required>
+          <input type="text" id="cf" name="cf" required>
           <label for="date_birth">Data di nasita</label>
-          <input type="date" name="date_birth" required>
+          <input type="date" id="date_birth" name="date_birth" required>
         </div>
 
         <div>
@@ -39,9 +42,11 @@
           <textarea type="anamnesis" name="anamnesis"></textarea>
         </div> 
 
-      </div>
+      
+    </div>
 
-    <button>Conferma</button>
-
+    <button type="submit">Conferma</button>
+    
+    </form>
   </body>
 </html>

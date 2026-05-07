@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.static('public'));
+//app.use(express.urlencoded({extended: true}));
 
 app.get('/login', function(req, res){
     //res.sendFile(__dirname+'/pages/login.html');
@@ -14,7 +15,7 @@ app.get('/login', function(req, res){
 
 app.get('/newpatient', function(req, res){
     //res.sendFile(__dirname+'/pages/newpatient.html');
-    res.sendFile(__dirname+'/public/newpatient.html');
+    res.sendFile(__dirname+'/public/newpatient.html');  
 })
 
 app.get('/appointments', function(req, res){
