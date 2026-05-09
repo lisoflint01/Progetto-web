@@ -11,12 +11,14 @@
     "url": "git+https://github.com/lisoflint01/Progetto-web.git"
   },
   "author": "",
+  "type": "module",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lisoflint01/Progetto-web/issues"
   },
   "homepage": "https://github.com/lisoflint01/Progetto-web#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mysql2": "^3.22.3"
   }
 }

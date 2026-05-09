@@ -1,4 +1,5 @@
 import express from 'express';
+import { appointmentsRouter } from './routes/appointments-router.js';
 
 const __dirname = import.meta.dirname;
 
@@ -7,6 +8,7 @@ const port = 3000;
 
 app.use(express.static('public'));
 //app.use(express.urlencoded({extended: true}));
+app.use(appointmentsRouter);
 
 app.get('/login', function(req, res){
     //res.sendFile(__dirname+'/pages/login.html');
@@ -20,7 +22,7 @@ app.get('/newpatient', function(req, res){
 
 app.get('/appointments', function(req, res){
     //res.sendFile(__dirname+'/pages/appointments.html');
-    res.sendFile(__dirname+'/public/newpatient.html');
+    res.sendFile(__dirname+'/public/appointments.html');
 })
 
 app.get('/admin', function(req, res){
