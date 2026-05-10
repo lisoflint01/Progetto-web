@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/lisoflint01/Progetto-web#readme",
   "dependencies": {
+    "bootstrap": "^5.3.8",
     "express": "^5.2.1",
     "mysql2": "^3.22.3"
   }

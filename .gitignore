@@ -6,3 +6,8 @@ note.txt
 
 admin.html
 public/
+package-lock.json
+package.json
+public/admin.html
+public/appointments.html
+public/css/style.css

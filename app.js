@@ -1,5 +1,6 @@
 import express from 'express';
 import { appointmentsRouter } from './routes/appointments-router.js';
+import { patientRouter } from './routes/patient-router.js';
 
 const __dirname = import.meta.dirname;
 
@@ -9,6 +10,7 @@ const port = 3000;
 app.use(express.static('public'));
 //app.use(express.urlencoded({extended: true}));
 app.use(appointmentsRouter);
+app.use(patientRouter);
 
 app.get('/login', function(req, res){
     //res.sendFile(__dirname+'/pages/login.html');
