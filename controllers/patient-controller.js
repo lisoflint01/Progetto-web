@@ -14,4 +14,14 @@ async function createPatient(req, res) {
     );
 }
 
-export { createPatient }
+async function singlePatient (req, res) {
+    connection.execute(
+        'SELECT * FROM patients WHERE cf = ?',
+        [req.params.cf],
+        function(err, results, fields) {
+            res.json(results);
+        }
+    );
+}
+
+export { createPatient, singlePatient }
