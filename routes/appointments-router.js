@@ -4,6 +4,6 @@ import * as appointmentsController from '../controllers/appointments-controller.
 const router = express.Router();
 
 router.get('/api/appointments', appointmentsController.allAppointments);
-router.get('/api/appointments/create', appointmentsController.createAppointment);
+router.post('/api/appointments/create', appointmentsController.createAppointment);
 
 export { router as appointmentsRouter};
