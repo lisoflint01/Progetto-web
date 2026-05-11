@@ -1,6 +1,7 @@
 import express from 'express';
 import { appointmentsRouter } from './routes/appointments-router.js';
 import { patientRouter } from './routes/patient-router.js';
+import { adminRouter } from './routes/admin-router.js';
 
 const __dirname = import.meta.dirname;
 
@@ -12,6 +13,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(appointmentsRouter);
 app.use(patientRouter);
+app.use(adminRouter);
 
 app.get('/login', function(req, res){
     //res.sendFile(__dirname+'/pages/login.html');
