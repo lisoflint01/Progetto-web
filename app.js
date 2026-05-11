@@ -11,6 +11,7 @@ const port = 3000;
 
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 app.use(appointmentsRouter);
 app.use(patientRouter);
@@ -22,7 +23,7 @@ app.get('/login', function(req, res){
     res.sendFile(__dirname+'/public/login.html');
 })
 
-app.get('/newpatient', function(req, res){
+app.get('/patient', function(req, res){
     //res.sendFile(__dirname+'/pages/newpatient.html');
     res.sendFile(__dirname+'/public/newpatient.html');  
 })
