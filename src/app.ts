@@ -1,13 +1,17 @@
 import express from 'express';
+import path from 'path';
+import type { Express } from 'express';
+
+const app: Express = express();
+const port: number = 3000;
+
 import { appointmentsRouter } from './routes/appointments-router.js';
 import { patientRouter } from './routes/patient-router.js';
 import { adminRouter } from './routes/admin-router.js';
 import { loginRouter } from './routes/login-router.js';
 
-const __dirname = import.meta.dirname;
-
-const app = express();
-const port = 3000;
+const __dirname: string = import.meta.dirname;
+const publicPath = path.join(__dirname, '..', 'public');
 
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
@@ -19,23 +23,19 @@ app.use(adminRouter);
 app.use(loginRouter);
 
 app.get('/login', function(req, res){
-    //res.sendFile(__dirname+'/pages/login.html');
-    res.sendFile(__dirname+'/public/login.html');
+    res.sendFile(path.join(publicPath, 'login.html'));
 })
 
 app.get('/patient', function(req, res){
-    //res.sendFile(__dirname+'/pages/newpatient.html');
-    res.sendFile(__dirname+'/public/newpatient.html');  
+    res.sendFile(path.join(publicPath, 'patient.html'));  
 })
 
 app.get('/appointments', function(req, res){
-    //res.sendFile(__dirname+'/pages/appointments.html');
-    res.sendFile(__dirname+'/public/appointments.html');
+    res.sendFile(path.join(publicPath, 'appointments.html'));
 })
 
 app.get('/admin', function(req, res){
-    //res.sendFile(__dirname+'/pages/admin.html');
-    res.sendFile(__dirname+'/public/admin.html');
+    res.sendFile(path.join(publicPath, 'admin.html'));
 })
 
 app.use(function(req, res, next){

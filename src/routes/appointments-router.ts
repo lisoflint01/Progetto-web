@@ -1,7 +1,7 @@
-import express from 'express';
+import express, { Router } from 'express';
 import * as appointmentsController from '../controllers/appointments-controller.js'
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.get('/api/appointments', appointmentsController.allAppointments);
 router.post('/api/appointments/create', appointmentsController.createAppointment);

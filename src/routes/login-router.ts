@@ -1,7 +1,7 @@
-import express from 'express';
+import express, { Router } from 'express';
 import * as loginController from '../controllers/login-controller.js'
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.post('/api/login', loginController.login);
 

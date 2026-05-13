@@ -1,6 +1,7 @@
+import type { Request, Response } from "express";
 import { connection } from "../utils/db.js";
 
-async function allAppointments(req, res) {
+async function allAppointments(req: Request, res: Response) {
     connection.execute(
         'SELECT appointment_id, date, initial_time, duration, note, state, patient_cf FROM appointments',
         [],
@@ -10,7 +11,7 @@ async function allAppointments(req, res) {
     );
 }
 
-async function createAppointment(req, res) {
+async function createAppointment(req: Request, res: Response) {
     connection.execute(
         'SELECT * FROM appointments WHERE date = ? AND initial_time = ?',
         [req.body.date, req.body.initial_time],
