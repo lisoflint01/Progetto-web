@@ -1,0 +1,377 @@
+/* |GENERALE| */
+
+h1 {
+    margin-top: 2vh;
+    color: #320A9E;
+    text-align: center;
+    font-weight: 500;
+}
+
+div{
+    margin-top: 2vh;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+}
+
+* {
+    font-family: 'Segoe UI', sans-serif;
+    color: black;
+    font-weight: 450 ;
+}
+
+
+
+/* |BOTTONI| */
+
+button{
+    align-items: center;
+    width: 25%;
+    font-weight: 700;
+    
+    border-color: #320A9E;
+    border-radius: 20px;
+    border-width: 4px;
+
+    background-color: white;
+}
+
+button:hover {
+    box-shadow: 0 2px 4px black;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0px);
+    box-shadow: none;
+}
+
+#calendar-week, #calendar-day {
+    border-color: #309EB4;
+    width: 12%;
+}
+
+button[id='PUT']{
+    border-color: #1A237E;
+}
+
+button[id='DELETE']{
+    border-color:#C62828;
+}
+
+
+
+/* |INPUT| */
+
+.input {
+    border: 2px solid #320A9E;
+    border-radius: 20px;
+    max-height: 4vh;
+}
+
+.textarea_appointments{
+    border: 2px solid #320A9E;
+    border-radius: 20px;
+    width: 99%;           
+    margin: 0 auto;       
+    min-height: 10vh;
+    display: block;
+}
+
+.textarea_patient {
+    border: 2px solid #320A9E;
+    border-radius: 20px;
+    width: 80%;           
+    margin: 0 auto;       
+    min-height: 20vh;
+    display: block;        
+}
+
+
+/* ADMIN
+    <style> ADMIN
+        
+    /* Layout fluido in percentuale 
+        .main-wrapper {
+            width: 95%;
+            margin: 0 auto;
+            padding-top: 2%;
+        }
+
+    /* Titolo
+        .admin-title {
+            font-size: 2rem;
+            margin-bottom: 1.5%;
+            font-weight: 500;
+        }
+
+    /* Navigazione (Settimana/Giorno) a destra
+        .calendar-nav {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1%;
+            margin-bottom: 0.5%;
+        }
+
+    /* --- IL CONTORNO BLU DEL CALENDARIO ---
+        .calendar-border-blue {
+            width: 100%;
+            min-height: 550px;
+            margin-bottom: 3%;
+            
+    /* Stile del bordo
+            border: 3px solid #007bff;
+            border-radius: 20px;      
+            padding: 1.5%;             
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+    /* Area bottoni Modifica/Cancella
+        .admin-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10%
+            width: 100%;
+        }
+
+    /* Grandezze bottoni in percentuale
+        .admin-actions button {
+            width: 25%;
+            min-width: 160px;
+            padding: 0.8% 0;
+            cursor: pointer;
+        }
+
+
+    </style> /ADMIN
+ADMIN */
+
+
+
+
+
+
+
+
+
+/* APPOINTMENTS
+    <style> APPOINTMENTS
+        
+        <style>
+        :root {
+            --unibo-purple: #2b0096;
+            --unibo-light-blue: #00bcd4;
+        }
+
+    /* Contenitore principale flessibile 
+        .main-container { width: 90%; margin: 0 auto; max-width: 1200px; }
+        
+        .page-title { font-size: 1.8rem; margin: 2% 0; }
+
+        .btn-view-toggle {
+            border: 2px solid var(--unibo-light-blue);
+            border-radius: 15px;
+            padding: 0.2% 1.5%;
+            background: white;
+            font-size: 0.9rem;
+        }
+
+    /* Calendario ingrandito e fluido
+        .calendar-wrapper {
+            border: 2px solid var(--unibo-purple);
+            border-radius: 20px;
+            padding: 1%;
+            min-height: 450px; 
+            width: 100%;
+            margin-bottom: 3%;
+        }
+
+    /* Input pillola con larghezze in percentuale
+        .pill-input {
+            border: 2px solid var(--unibo-purple);
+            border-radius: 25px;
+            padding: 0.5% 2%;
+            font-size: 1rem;
+            height: auto;
+        }
+
+    /* Bottoni a destra
+        .btn-action-purple {
+            background-color: var(--unibo-purple);
+            color: white;
+            border-radius: 25px;
+            border: none;
+            padding: 1% 0;
+            width: 100%;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+
+        .label-custom {
+            font-weight: 600;
+            margin-bottom: 0.5%;
+            display: block;
+            text-align: center;
+        }
+
+    /* Wrapper per i bottoni a destra per distanziarli
+        .button-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 15%; 
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+
+    </style> /APPOINTMENTS
+APPOINTMENTS */
+
+
+
+
+
+
+
+
+/* LOGIN
+    <style> LOGIN
+
+    /* Contenitore centrato e fluido
+        .login-wrapper {
+            width: 90%;
+            max-width: 600px;
+            margin: 5% auto;
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 2.5rem;
+            margin-bottom: 8%;
+            font-weight: 500;
+        }
+
+    /* Label sopra l'input
+        .label-custom {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 1%;
+            font-size: 1.1rem;
+        }
+
+    /* Input pillola viola in percentuale
+        .pill-input {
+            border: 2px solid #2b0096 !important;
+            border-radius: 30px !important;
+            padding: 1% 3% !important;
+            height: 45px;
+            width: 100%; 
+            box-shadow: none !important;
+        }
+
+    /* Bottone Accedi centrato
+        .btn-login {
+            background-color: #2b0096;
+            color: white;
+            border-radius: 30px;
+            border: none;
+            width: 30%;
+            min-width: 120px;
+            padding: 10px 0;
+            margin-top: 5%;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .btn-login:hover {
+            opacity: 0.9;
+            color: white;
+        }
+
+    /* Spaziatura tra i campi
+        .form-group {
+            margin-bottom: 5%;
+        }
+    </style> /LOGIN
+LOGIN */
+
+
+
+
+/* PATIENT
+    <style> PATIENT
+
+        .main-wrapper {
+            width: 90%;
+            max-width: 1000px;
+            margin: 3% auto;
+        }
+
+        .title-section {
+            font-size: 2.2rem;
+            margin-bottom: 5%;
+            font-weight: 500;
+        }
+
+    /* Label allineate a sinistra dei campi
+        .label-custom {
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 120px;
+            display: inline-block;
+        }
+
+    /* Input pillola viola
+        .pill-input {
+            border: 2px solid #2b0096 !important;
+            border-radius: 30px !important;
+            padding: 5px 20px !important;
+            height: 38px;
+            display: inline-block;
+            box-shadow: none !important;
+        }
+
+    /* Textarea specifica per Anamnesi
+        .pill-textarea {
+            border: 2px solid #2b0096 !important;
+            border-radius: 20px !important;
+            padding: 15px 20px !important;
+            width: 100%;
+            min-height: 120px;
+            resize: none;
+        }
+
+    /* Bottone Conferma centrato
+        .btn-confirm {
+            background-color: #2b0096;
+            color: white;
+            border-radius: 30px;
+            border: none;
+            width: 40%;
+            max-width: 300px;
+            padding: 10px 0;
+            margin-top: 3%;
+            font-weight: 500;
+        }
+
+    /* Container per ogni riga di input
+        .input-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5%;
+        }
+
+    /* Sotto-container per coppia label/input
+        .input-pair {
+            width: 45%;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-pair input {
+            flex-grow: 1; 
+        }
+    </style> /PATIENT
+PATIENT */
