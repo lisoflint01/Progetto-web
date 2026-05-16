@@ -67,6 +67,7 @@ button[id='DELETE']{
     border: 2px solid #320A9E;
     border-radius: 20px;
     max-height: 4vh;
+    width: 70%; 
 }
 
 .textarea_appointments{
