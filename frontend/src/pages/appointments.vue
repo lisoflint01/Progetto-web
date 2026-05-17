@@ -93,9 +93,9 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-3">
             <div>
-                <button type="submit" class="btn-confirm w-50">Conferma</button>
+                <button type="submit" class="btn-confirm w-50 mb-4">Conferma</button>
             </div>
 
             <div>
