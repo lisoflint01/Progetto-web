@@ -48,7 +48,7 @@ button:active {
 
 .button-calendar {
     border-color: #309EB4;
-    width: 10%;
+    width: 25%;
     font-weight: 600;
 }
 
@@ -67,8 +67,8 @@ button[id='DELETE']{
 .input {
     border: 2px solid #320A9E;
     border-radius: 20px;
-    max-height: 4vh;
-    width: 70%; 
+    width: 100%; 
+    text-align: center;
 }
 
 .textarea_appointments{
@@ -101,7 +101,7 @@ button[id='DELETE']{
 }
 
 .nav-arrow {
-    width: 10%;
+    width: 25%;
     font-weight: 600;
 }
 
@@ -140,7 +140,6 @@ form .row,
     margin-right: 0 !important;
 }
 
-/* Evita che l'intera pagina possa mai creare uno scroll orizzontale */
 html, body {
     overflow-x: hidden;
 }

@@ -95,11 +95,11 @@
 
         <div class="col-3">
             <div>
-                <button type="submit" class="btn-confirm w-50 mb-4">Conferma</button>
+                <button type="submit" class="btn-confirm w-100 mb-4">Conferma</button>
             </div>
 
             <div>
-                <button type="button" class="btn-export w-50">Esporta</button>
+                <button type="button" class="btn-export w-100">Esporta</button>
             </div>
         </div>
     </div>
@@ -116,6 +116,6 @@
 
 <style>
     .calendar-appointments .fc {
-        height: 40vh;
+        height: 35vh;
     }
 </style>

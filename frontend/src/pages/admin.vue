@@ -78,7 +78,7 @@
 <style>
 
 .calendar-admin .fc {
-    height: 60vh;
+    height: 50vh;
 }
 
 .fc {
