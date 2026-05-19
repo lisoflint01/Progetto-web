@@ -19,6 +19,13 @@
 
 <style scoped>
 
+  .router-link-exact-active {
+    border: 4px solid black;
+    border-radius: 10px;
+    padding-inline-start: 1%;
+    padding-inline-end: 1%;
+  }
+
   nav {
     padding-bottom: 2ch;
     background-color: #320A9E;
