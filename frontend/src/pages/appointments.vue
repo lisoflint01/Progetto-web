@@ -40,7 +40,6 @@
 </script>
 
 
-
 <template>
     <div class="main-container py-1">
         
@@ -57,7 +56,6 @@
                 <div class="calendar-title">{{ currentTitle }}</div>
                 <button class="nav-arrow" @click="next">Avanti</button>
             </div>
-
             
             <FullCalendar ref="fullCalendarRef" :options="calendarOptions" />
         </div>

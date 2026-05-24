@@ -6,11 +6,15 @@ async function login(req: Request, res: Response) {
         'SELECT user_id, username, fullname, role FROM users WHERE username = ? AND password = ?',
         [req.body.username, req.body.password],
         function(err, results){
+
             if ((results as any[]).length > 0) {
-                res.json("login success");
+                // Recuperiamo il ruolo reale dal primo utente trovato nei risultati
+                const userRole = (results as any[])[0].role;
+
+                res.status(200).json({ message: "login success", role: userRole });
             }       
             else{
-                res.status(400).json("login  not success")
+                res.status(400).json("login not success");
             }
         }
     )
