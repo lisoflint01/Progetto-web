@@ -26,8 +26,9 @@ div{
 
 button{
     align-items: center;
-    width: 25%;
+    width: 50%;
     font-weight: 700;
+    min-width: max-content;
     
     border-color: #320A9E;
     border-radius: 20px;
@@ -48,7 +49,7 @@ button:active {
 
 .button-calendar {
     border-color: #309EB4;
-    width: 25%;
+    width: 40%;
     font-weight: 600;
 }
 

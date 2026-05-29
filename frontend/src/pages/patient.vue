@@ -4,21 +4,23 @@ import axios from 'axios';
 export default {
     data() {
         return {
-        name: '',
-        surname: '',
-        cf: '',
-        email: '',
-        tel: '',
-        date_birth: '',
-        anamnesis: '',
+            userRole: localStorage.getItem('ruoloUtente') || '',
 
-        messaggioSuccesso: ''
+            name: '',
+            surname: '',
+            cf: '',
+            email: '',
+            tel: '',
+            date_birth: '',
+            anamnesis: '',
+
+            messaggio: ''
         }
     },
 
     methods: {
         creaPaziente() {
-            this.messaggioSuccesso= '';
+            this.message= '';
 
             axios.post('/api/patient/create', {
                 name: this.name,
@@ -31,10 +33,10 @@ export default {
             })
 
             .then(response => {
-                this.messaggioSuccesso = "Paziente registrato con successo!";
+                this.message = response.data;
             })
             .catch(error => {
-                this.messaggioSuccesso = "Errore durante il salvataggio.";
+                this.message = error.response.data;
                 console.error(error);
             });
         }
@@ -49,64 +51,67 @@ export default {
         <form @submit.prevent="creaPaziente">
             <div class="row">
                 <div class="col-1"></div>
+                
                 <div class="col-5">
 
-                    <div class="mb-2 align-items-center">
-                        <label for="name">Nome</label>
+                    <div>
+                        <label>Nome</label>
                         <div>
-                            <input type="text" id="name" v-model="name" class="input" required>
+                            <input type="text" v-model="name" class="input" required>
                         </div>
                     </div>
                     
-                    <div class="mb-2 align-items-center">
-                        <label for="surname">Cognome</label>
+                    <div>
+                        <label>Cognome</label>
                         <div>
-                            <input type="text" id="surname" v-model="surname" class="input" required>
+                            <input type="text" v-model="surname" class="input" required>
                         </div>
                     </div>
 
-                    <div class="mb-2 align-items-center">
-                        <label for="cf">Codice Fiscale</label>
+                    <div>
+                        <label>Codice Fiscale</label>
                         <div>
-                            <input type="text" id="cf" v-model="cf" class="input" required>
+                            <input type="text" v-model="cf" class="input" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-5">
-                    <div class="mb-2 align-items-center">
-                        <label for="email" class="col-sm-4 ">Email</label>
+                    <div>
+                        <label>Email</label>
                         <div>
-                            <input type="email" id="email" v-model="email" class="input">
+                            <input type="email" v-model="email" class="input">
                         </div>
                     </div>
 
-                    <div class="mb-2 align-items-center">
-                        <label for="tel" class="col-sm-4 ">Telefono</label>
-                        <div class="">
-                            <input type="tel" id="tel" v-model="tel" class="input" required>
+                    <div>
+                        <label>Telefono</label>
+                        <div>
+                            <input type="tel" v-model="tel" class="input" required>
                         </div>
                     </div>
                     
-                    <div class="mb-2 align-items-center">
-                        <label for="date_birth" class="">Data Nascita</label>
+                    <div>
+                        <label>Data Nascita</label>
                         <div>
-                            <input type="date" id="date_birth" v-model="date_birth" class="input" required>
+                            <input type="date" v-model="date_birth" class="input" required>
                         </div>
                     </div>
                 </div>
                 <div class="col-1"></div>
             </div>
 
-            <div class="mt-3 text-center">
-                <label for="anamnesis" class="d-block mb-3">Anamnesi</label>
-                <textarea v-model="anamnesis" id="anamnesis" class="textarea_patient"></textarea>
+            <div>
+                <label>Anamnesi</label>
+                <textarea v-model="anamnesis" class="textarea_patient"></textarea>
             </div> 
 
-            <div class="text-center mt-4">
-                <button type="submit">Conferma</button>
+            <div class="mt-4">
+                <button type="submit" :disabled="userRole !== 'admin' && userRole !== 'operatore'">Conferma</button>
             </div>
-            <div v-if="messaggioSuccesso">{{ messaggioSuccesso }}</div>
+
+            <div v-if="message">{{ message }}</div>
+            
         </form>
     </div>
 </template>
