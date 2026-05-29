@@ -25,20 +25,23 @@
         axios.post('/api/login', this.credentials)
           .then(response => {
             this.dataUser = response.data;
+      
+            this.message = (response.data.message + response.data.role);
 
-            if (response.data.role === 'admin') {
-              this.message = 'sei un admin, andiamo a fare qualche danno?';
-              console.log(response);
-            }
+            localStorage.setItem('ruoloUtente', response.data.role);
 
-            else if (response.data.role === 'operatore'){
-              this.message = 'sei un classicone, benvenuto operatore';
-              console.log(response);
-            }
-
+            setTimeout(() => {
+              if (response.data.role === 'admin') {
+                this.$router.push('/admin');
+              } 
+              else if (response.data.role === 'operatore') {
+                this.$router.push('/appointments');
+              }
+            }, 1000);
           })
+
           .catch(error => {
-            this.message = 'Andata male me sa, Nome utente o password sbagliati';
+            this.message = 'Ti è andata male me sa, ' + error.response.data.message;
             console.log(error);
           });
       }
@@ -61,14 +64,14 @@
         <div>
           <label for="email" class="label-custom mb-3">Email</label>
         </div>
-        <input type="email" v-model="credentials.username" class="input w-50" required>
+        <input type="email" v-model="credentials.username" class="input" required>
       </div> 
 
       <div class="my-5">
         <div>
           <label for="password" class="label-custom mb-3">Password</label>
         </div>
-        <input type="password" v-model="credentials.password" class="input w-50" required>
+        <input type="password" v-model="credentials.password" class="input" required>
       </div>
 
       <div class="mt-5">
@@ -84,4 +87,7 @@
 
 <style scoped>
     @import "./css/style.css";
+    .input{
+      width: 50%;
+    }
 </style>

@@ -5,16 +5,20 @@ async function login(req: Request, res: Response) {
     connection.execute(
         'SELECT user_id, username, fullname, role FROM users WHERE username = ? AND password = ?',
         [req.body.username, req.body.password],
-        function(err, results){
+        function(err, results) {
 
-            if ((results as any[]).length > 0) {
-                // Recuperiamo il ruolo reale dal primo utente trovato nei risultati
+            if (err) {
+                console.error("Errore di sistema:", err);
+                return res.status(500).json({ message: "Errore col database, i'm afraid Brucius" });
+            }
+
+            if (results && (results as any[]).length > 0) {
                 const userRole = (results as any[])[0].role;
-
-                res.status(200).json({ message: "login success", role: userRole });
-            }       
-            else{
-                res.status(400).json("login not success");
+                return res.status(200).json({ message: "login approvato come ", role: userRole });
+            } 
+            
+            else {
+                return res.status(401).json({ message: "EMAIL o PASSWORD errate" });
             }
         }
     )
