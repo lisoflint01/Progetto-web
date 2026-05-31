@@ -15,7 +15,6 @@ export interface Appointment {
     initial_time: string;      
     duration: number;           
     note?: string;              
-    state: 'prenotato' | 'cancellato' | 'completato';
 }
 
 export interface User {
@@ -25,3 +24,4 @@ export interface User {
     fullname: string;          
     role: 'admin' | 'operatore';
 }
+
