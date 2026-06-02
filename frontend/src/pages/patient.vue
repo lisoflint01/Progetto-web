@@ -103,7 +103,7 @@ export default {
 
             <div>
                 <label>Anamnesi</label>
-                <textarea v-model="anamnesis" class="textarea_patient"></textarea>
+                <textarea v-model="anamnesis"></textarea>
             </div> 
 
             <div class="mt-4">
@@ -119,4 +119,13 @@ export default {
 
 <style scoped>
     @import "./css/style.css";
+
+    textarea {
+        border: 2px solid #320A9E;
+        border-radius: 20px;
+        width: 80%;           
+        margin: 0 auto;       
+        min-height: 20vh;
+        display: block;        
+    }
 </style>

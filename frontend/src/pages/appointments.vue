@@ -213,7 +213,7 @@ export default defineComponent({
                         </div>
                         <div class="col-12 mt-3">
                             <label>nota</label>
-                            <textarea v-model="newAppointment.note" class="textarea_appointments"></textarea>
+                            <textarea v-model="newAppointment.note"></textarea>
                         </div>
                     </div>
 
@@ -236,4 +236,13 @@ export default defineComponent({
 
 <style scoped>
     @import "./css/style.css";
+
+    textarea {
+        border: 2px solid #320A9E;
+        border-radius: 20px;
+        width: 99%;           
+        margin: 0 auto;       
+        min-height: 10vh;
+        display: block;
+    }
 </style>
