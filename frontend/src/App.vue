@@ -1,3 +1,29 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  data() {
+    return {
+      userRole: localStorage.getItem('ruoloUtente') || ''
+    };
+  },
+  
+  watch: {
+    $route() {
+      this.userRole = localStorage.getItem('ruoloUtente') || '';
+    }
+  },
+
+  methods: {
+    logout() {
+      localStorage.removeItem('ruoloUtente');
+      this.userRole = '';
+      this.$router.push('/login');
+    }
+  }
+});
+</script>
+
 <template>
   
   <nav>
@@ -5,11 +31,13 @@
       MedicFit
     </div>
 
-    <div class="barra">
-      <RouterLink class="router" to="/admin">Admin</RouterLink>
-      <RouterLink class="router" to="/appointments">Appointments</RouterLink>
-      <RouterLink class="router" to="/login">Login</RouterLink>
-      <RouterLink class="router" to="/patient">Patient</RouterLink>
+    <div class="bar">
+      <RouterLink v-if="userRole === 'admin'" class="router" to="/admin">Admin</RouterLink>
+      <RouterLink v-if="userRole === 'admin' || userRole === 'operatore'" class="router" to="/appointments">Appointments</RouterLink>
+      <RouterLink v-if="userRole === 'admin' || userRole === 'operatore'" class="router" to="/patient">Patient</RouterLink>
+      <RouterLink v-if="userRole != 'admin' && userRole != 'operatore'" class="router" to="/login">Login</RouterLink>
+
+      <a v-if="userRole === 'admin' || userRole === 'operatore'" class="router" href="#" @click.prevent="logout">Logout</a>
     </div>
   </nav>
 
@@ -36,7 +64,7 @@
     color: white;
   }
 
-  .barra{
+  .bar{
     text-align: center;
   }  
 
