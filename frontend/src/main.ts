@@ -7,6 +7,7 @@ import Admin from './pages/admin.vue'
 import Appointments from './pages/appointments.vue'
 import Login from './pages/login.vue'
 import Patient from './pages/patient.vue'
+import NotFound from './pages/NotFound.vue'
 
 const router: Router = createRouter({
     history: createWebHistory(),
@@ -15,6 +16,7 @@ const router: Router = createRouter({
         { path: '/appointments', component: Appointments},
         { path: '/login', component: Login},
         { path: '/patient', component: Patient},
+        { path: '/:pathMatch(.*)*', component: NotFound}
     ]
 })
 
