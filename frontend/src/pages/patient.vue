@@ -14,7 +14,7 @@ export default {
             date_birth: '',
             anamnesis: '',
 
-            messaggio: ''
+            message: ''
         }
     },
 

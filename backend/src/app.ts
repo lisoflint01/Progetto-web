@@ -2,17 +2,21 @@ import express from 'express';
 import path from 'path';
 import type { Express } from 'express';
 
-const app: Express = express();
-const port: number = 3000;
-
 import { appointmentsRouter } from './routes/appointments-router.js';
 import { patientRouter } from './routes/patient-router.js';
 import { adminRouter } from './routes/admin-router.js';
 import { loginRouter } from './routes/login-router.js';
+import historyApiFallback from 'connect-history-api-fallback' 
 
 const __dirname: string = import.meta.dirname;
 const publicPath = path.join(__dirname, '..', 'public');
 
+const app: Express = express();
+const port: number = 3000;
+
+app.use(historyApiFallback());
+
+app.use(express.static('dist-frontend'));
 app.use(express.static('public'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
