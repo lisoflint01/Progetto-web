@@ -4,13 +4,12 @@ import axios from 'axios';
 import type { Appointment } from '@/types';
 
 export default defineComponent({
-    name: 'AppointmentManager',
     data() {
         return {
             userRole: localStorage.getItem('ruoloUtente') || '',
             
             dataAppointment: [] as Appointment[],
-            messaggio: '',
+            message: '',
             
             newAppointment: {
                 patient_cf: '',
@@ -21,16 +20,16 @@ export default defineComponent({
  
             },
 
-            view: 'settimana' as 'settimana' | 'giorno', 
+            view: 'week' as 'week' | 'day', 
             dayIndex: 0,
             currentDate: new Date(), 
-            days: [] as Array<{ nome: string; dataIso: string }>, 
+            days: [] as Array<{ name: string; dayDate: string }>, 
             times: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00']
         }
     },
     computed: {
-        days(): Array<{ nome: string; dataIso: string }> {
-            return this.view === 'giorno' ? [this.days[this.dayIndex]] : this.days;
+        dayVisible(): Array<{ name: string; dayDate: string }> {
+            return this.view === 'day' ? [this.days[this.dayIndex]] : this.days;
         }
     },
     methods: {
@@ -45,78 +44,80 @@ export default defineComponent({
         },
 
         createAppointment() {
-            this.messaggio = '';
+            this.message = '';
             axios.post("/api/appointments/create", this.newAppointment)
                 .then(response => {
-                    this.messaggio = response.data;
+                    this.message = response.data;
                     this.getAppointment();
                 })
                 .catch(error => {
-                    this.messaggio = error.response?.data?.error || "Errore durante il salvataggio";
+                    this.message = error.response?.data?.error || "Errore durante il salvataggio";
                 });
         },
 
-        trovaAppuntamento(dataIso: string, ora: string): Appointment | undefined {
+        checkAppointment(dayDate: string, time: string): Appointment | undefined {
             if (!Array.isArray(this.dataAppointment)) return undefined;
 
-            return this.dataAppointment.find(appuntamento => {
-                if (!appuntamento || !appuntamento.date || !appuntamento.initial_time) return false;
+            return this.dataAppointment.find(appointment => {
+                if (!appointment || !appointment.date || !appointment.initial_time) return false;
 
-                const dataAppuntamentoIso = appuntamento.date.toString().substring(0, 10);
-                const stessoGiorno = (dataAppuntamentoIso === dataIso);
+                const appointmentDate = appointment.date.toString().substring(0, 10);
+                const isSameDay = (appointmentDate === dayDate);
                 
-                const oraDb = appuntamento.initial_time.substring(0, 2);
-                const oraCella = ora.substring(0, 2);
+                const dbHour = appointment.initial_time.substring(0, 2);
+                const cellHour = time.substring(0, 2);
 
-                return stessoGiorno && (oraDb === oraCella);
+                return isSameDay && (dbHour === cellHour);
             });
         },
 
-        calcolaSettimana() {
-            const giornoSett = this.currentDate.getDay();
+        calculateWeek() {
+            const dayWeek = this.currentDate.getDay();
 
-            const diffLun = giornoSett === 0 ? -6 : 1 - giornoSett;
+            const shiftLunedi = dayWeek === 0 ? -6 : 1 - dayWeek;
             
             const lunedi = new Date(this.currentDate);
-            lunedi.setDate(this.currentDate.getDate() + diffLun);
+            lunedi.setDate(this.currentDate.getDate() + shiftLunedi);
 
-            const nomi = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'];
-            this.days = nomi.map((nome, i) => {
-                const d = new Date(lunedi);
-                d.setDate(lunedi.getDate() + i);
+            const dayName = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'];
+            this.days = dayName.map((name, i) => {
+                const currentDay = new Date(lunedi);
+                currentDay.setDate(lunedi.getDate() + i);
                 
-                const anno = d.getFullYear();
-                const mese = String(d.getMonth() + 1).padStart(2, '0');
-                const giorno = String(d.getDate()).padStart(2, '0');
+                const year = currentDay.getFullYear();
+                const month = String(currentDay.getMonth() + 1).padStart(2, '0');
+                const day = String(currentDay.getDate()).padStart(2, '0');
                 
-                return { nome, dataIso: `${anno}-${mese}-${giorno}` };
+                return { name, dayDate: `${year}-${month}-${day}` };
             });
         },
 
-        naviga(passo: number) {
-            if (this.view === 'giorno') {
-                let nuovoIdx = this.dayIndex + passo;
-                if (nuovoIdx >= 0 && nuovoIdx <= 4) {
-                    this.dayIndex = nuovoIdx;
+        navigate(step: number) {
+            if (this.view === 'day') {
+                let newIndex = this.dayIndex + step;
+                if (newIndex >= 0 && newIndex <= 4) {
+                    this.dayIndex = newIndex;
                     return;
                 }
-                // Se superi i confini della settimana (Lun-Ven), sposta la settimana di riferimento
-                this.currentDate.setDate(this.currentDate.getDate() + (passo * 7));
-                this.dayIndex = passo === 1 ? 0 : 4;
+
+                // Se superati confini (Lun-Ven)
+                this.currentDate.setDate(this.currentDate.getDate() + (step * 7));
+                this.dayIndex = step === 1 ? 0 : 4;
             } else {
-                this.currentDate.setDate(this.currentDate.getDate() + (passo * 7));
+                this.currentDate.setDate(this.currentDate.getDate() + (step * 7));
             }
-            this.calcolaSettimana();
+            this.calculateWeek();
             this.getAppointment();
         },
 
-        esportaDati() {
+        exportData() {
             const csvContent = "data:text/csv;charset=utf-8," 
                 + "ID,Data,Ora,Durata,Paziente,Note\n"
-                + this.dataAppointment.map(r => `${r.appointment_id},${r.date},${r.initial_time},${r.duration},${r.patient_cf},"${r.note || ''}"`).join("\n");
+                + this.dataAppointment.map(row => `${row.appointment_id},${row.date},${row.initial_time},${row.duration},${row.patient_cf},"${row.note || ''}"`).join("\n");
 
             const link = document.createElement("a");
             link.setAttribute("href", encodeURI(csvContent));
+
             link.setAttribute("download", "appuntamenti.csv");
             document.body.appendChild(link);
             link.click();
@@ -124,7 +125,7 @@ export default defineComponent({
         }
     },
     mounted() {
-        this.calcolaSettimana();
+        this.calculateWeek();
         this.getAppointment();
     }
 });
@@ -137,15 +138,15 @@ export default defineComponent({
         
         <div class="row">
             <div class="col-4 text-start">
-                <button @click="naviga(-1)"> indietro </button>
-                <button @click="naviga(1)"> avanti </button>
+                <button @click="navigate(-1)"> indietro </button>
+                <button @click="navigate(1)"> avanti </button>
             </div>
 
             <div class="col-4"></div>
             
             <div class="col-4 text-end">
-                <button class="button-calendar" @click="view = 'settimana'">Settimana</button>
-                <button class="button-calendar" @click="view = 'giorno'">Giorno</button>
+                <button class="button-calendar" @click="view = 'week'">Settimana</button>
+                <button class="button-calendar" @click="view = 'day'">Giorno</button>
             </div>
         </div>  
 
@@ -154,8 +155,8 @@ export default defineComponent({
                 <thead>
                     <tr>
                         <th class="hour">Ora</th>
-                        <th v-for="day in days" :key="day?.dataIso">
-                            {{ day?.nome }} <br> {{ day?.dataIso}}
+                        <th v-for="day in dayVisible" :key="day?.dayDate">
+                            {{ day?.name }} <br> {{ day?.dayDate}}
                         </th>
                     </tr>
                 </thead>
@@ -163,9 +164,9 @@ export default defineComponent({
                     <tr v-for="hour in times" :key="hour">
                         <td class="hour">{{ hour }}</td>
                         
-                        <td v-for="g in days" :key="g?.dataIso" style="position: relative;">
+                        <td v-for="day in dayVisible" :key="day?.dayDate" style="position: relative;">
                             
-                            <div v-for="appointment in [trovaAppuntamento(g?.dataIso, hour)]" :key="appointment?.appointment_id">
+                            <div v-for="appointment in [checkAppointment(day?.dayDate, hour)]" :key="appointment?.appointment_id">
                                 
                                 <div v-if="appointment" class="appointment-client small">
                                     <div class="fw-bold" :title="appointment.patient_cf">
@@ -224,9 +225,9 @@ export default defineComponent({
                     </div>
 
                     <div>
-                        <button type="button" @click="esportaDati">Esporta</button>
+                        <button type="button" @click="exportData">Esporta</button>
                     </div>
-                    <div v-if="messaggio" class="small">{{ messaggio }}</div>
+                    <div v-if="message" class="small">{{ message }}</div>
                 </div>
             </div>
         </form>

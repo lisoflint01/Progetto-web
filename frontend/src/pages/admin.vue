@@ -21,16 +21,16 @@ export default defineComponent({
                 note: ''
             },
 
-            view: 'settimana' as 'settimana' | 'giorno', 
+            view: 'week' as 'week' | 'day', 
             dayIndex: 0,
             currentDate: new Date(), 
-            days: [] as Array<{ nome: string; dataIso: string }>, 
+            days: [] as Array<{ name: string; dayDate: string }>, 
             times: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00']
         }
     },
     computed: {
-        giorniVisibili(): Array<{ nome: string; dataIso: string }> {
-            return this.view === 'giorno' ? [this.days[this.dayIndex]] : this.days;
+        dayVisible(): Array<{ name: string; dayDate: string }> {
+            return this.view === 'day' ? [this.days[this.dayIndex]] : this.days;
         }
     },
     methods: {
@@ -44,28 +44,28 @@ export default defineComponent({
                 });
         },
 
-        selezionaAppuntamento(appuntamento: Appointment) {
+        selectAppointment(appointment: Appointment) {
             this.message = '';
             
-            const dataPulita = appuntamento.date.toString().substring(0, 10);
+            const dateClean = appointment.date.toString().substring(0, 10);
 
             this.appointment = {
-                appointment_id: appuntamento.appointment_id,
-                patient_cf: appuntamento.patient_cf,
-                date: dataPulita as unknown as Date,
-                initial_time: appuntamento.initial_time.substring(0, 5),
-                duration: appuntamento.duration,
-                note: appuntamento.note || '',
+                appointment_id: appointment.appointment_id,
+                patient_cf: appointment.patient_cf,
+                date: dateClean as unknown as Date,
+                initial_time: appointment.initial_time.substring(0, 5),
+                duration: appointment.duration,
+                note: appointment.note || '',
             };
 
             this.isModalOpen = true;
         },
 
-        chiudiModal() {
+        closeModal() {
             this.isModalOpen = false;
         },
 
-        modificaAppuntamento() {
+        updateAppointment() {
             this.message = '';
             const id = this.appointment.appointment_id;
 
@@ -80,7 +80,7 @@ export default defineComponent({
                 });
         },
 
-        cancellaAppuntamento() {
+        deleteAppointment() {
             const id = this.appointment.appointment_id;
 
             this.message = '';
@@ -89,7 +89,7 @@ export default defineComponent({
                     this.message = response.data;
                     this.getAppointment();
                     setTimeout(() => {
-                        this.chiudiModal();
+                        this.closeModal();
                         this.message = '';
                     }, 1000);
                 })
@@ -99,60 +99,63 @@ export default defineComponent({
                 });
         },
 
-        trovaAppuntamento(dataIso: string, ora: string): Appointment | undefined {
+        checkAppointment(dayDate: string, time: string): Appointment | undefined {
             if (!Array.isArray(this.dataAppointment)) return undefined;
 
-            return this.dataAppointment.find(appuntamento => {
-                if (!appuntamento || !appuntamento.date || !appuntamento.initial_time) return false;
+            return this.dataAppointment.find(appointment => {
+                if (!appointment || !appointment.date || !appointment.initial_time) return false;
 
-                const dataAppuntamentoIso = appuntamento.date.toString().substring(0, 10);
-                const stessoGiorno = (dataAppuntamentoIso === dataIso);
+                const appointmentDate = appointment.date.toString().substring(0, 10);
+                const isSameDay = (appointmentDate === dayDate);
                 
-                const oraDb = appuntamento.initial_time.substring(0, 2);
-                const oraCella = ora.substring(0, 2);
+                const dbHour = appointment.initial_time.substring(0, 2);
+                const cellHour = time.substring(0, 2);
 
-                return stessoGiorno && (oraDb === oraCella);
+                return isSameDay && (dbHour === cellHour);
             });
         },
 
-        calcolaSettimana() {
-            const giornoSett = this.currentDate.getDay();
-            const diffLun = giornoSett === 0 ? -6 : 1 - giornoSett;
+        calculateWeek() {
+            const dayWeek = this.currentDate.getDay();
+
+            const shiftLunedi = dayWeek === 0 ? -6 : 1 - dayWeek;
             
             const lunedi = new Date(this.currentDate);
-            lunedi.setDate(this.currentDate.getDate() + diffLun);
+            lunedi.setDate(this.currentDate.getDate() + shiftLunedi);
 
-            const nomi = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'];
-            this.days = nomi.map((nome, i) => {
-                const d = new Date(lunedi);
-                d.setDate(lunedi.getDate() + i);
+            const dayName = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'];
+            this.days = dayName.map((name, i) => {
+                const currentDay = new Date(lunedi);
+                currentDay.setDate(lunedi.getDate() + i);
                 
-                const anno = d.getFullYear();
-                const mese = String(d.getMonth() + 1).padStart(2, '0');
-                const giorno = String(d.getDate()).padStart(2, '0');
+                const year = currentDay.getFullYear();
+                const month = String(currentDay.getMonth() + 1).padStart(2, '0');
+                const day = String(currentDay.getDate()).padStart(2, '0');
                 
-                return { nome, dataIso: `${anno}-${mese}-${giorno}` };
+                return { name, dayDate: `${year}-${month}-${day}` };
             });
         },
 
-        naviga(passo: number) {
-            if (this.view === 'giorno') {
-                let nuovoIdx = this.dayIndex + passo;
-                if (nuovoIdx >= 0 && nuovoIdx <= 4) {
-                    this.dayIndex = nuovoIdx;
+        navigate(step: number) {
+            if (this.view === 'day') {
+                let newIndex = this.dayIndex + step;
+                if (newIndex >= 0 && newIndex <= 4) {
+                    this.dayIndex = newIndex;
                     return;
                 }
-                this.currentDate.setDate(this.currentDate.getDate() + (passo * 7));
-                this.dayIndex = passo === 1 ? 0 : 4;
+
+                // Se superati confini (Lun-Ven)
+                this.currentDate.setDate(this.currentDate.getDate() + (step * 7));
+                this.dayIndex = step === 1 ? 0 : 4;
             } else {
-                this.currentDate.setDate(this.currentDate.getDate() + (passo * 7));
+                this.currentDate.setDate(this.currentDate.getDate() + (step * 7));
             }
-            this.calcolaSettimana();
+            this.calculateWeek();
             this.getAppointment();
-        }
+        },
     },
     mounted() {
-        this.calcolaSettimana();
+        this.calculateWeek();
         this.getAppointment();
     }
 });
@@ -165,25 +168,25 @@ export default defineComponent({
         
         <div class="row mb-3">
             <div class="col-4 text-start">
-                <button @click="naviga(-1)"> indietro </button>
-                <button @click="naviga(1)"> avanti </button>
+                <button @click="navigate(-1)"> indietro </button>
+                <button @click="navigate(1)"> avanti </button>
             </div>
 
             <div class="col-4"></div>
             
             <div class="col-4 text-end">
-                <button class="button-calendar" @click="view = 'settimana'">Settimana</button>
-                <button class="button-calendar" @click="view = 'giorno'">Giorno</button>
+                <button class="button-calendar" @click="view = 'week'">Settimana</button>
+                <button class="button-calendar" @click="view = 'day'">Giorno</button>
             </div>
         </div>
 
         <div class="table-responsive">
-            <table class="mb-0">
+            <table class="table table-bordered mb-0">
                 <thead>
                     <tr>
                         <th class="hour">Ora</th>
-                        <th v-for="day in days" :key="day?.dataIso">
-                            {{ day?.nome }} <br> {{ day?.dataIso}}
+                        <th v-for="day in dayVisible" :key="day?.dayDate">
+                            {{ day?.name }} <br> {{ day?.dayDate}}
                         </th>
                     </tr>
                 </thead>
@@ -191,9 +194,9 @@ export default defineComponent({
                     <tr v-for="hour in times" :key="hour">
                         <td class="hour">{{ hour }}</td>
                         
-                        <td v-for="day in days" :key="day?.dataIso" style="position: relative;">
-                            <div v-for="appointment in [trovaAppuntamento(day?.dataIso, hour)]" :key="appointment?.appointment_id">  
-                                <div v-if="appointment" class="appointment-client small" @click="selezionaAppuntamento(appointment)" style="cursor: pointer;">
+                        <td v-for="day in dayVisible" :key="day?.dayDate" style="position: relative;">
+                            <div v-for="appointment in [checkAppointment(day?.dayDate, hour)]" :key="appointment?.appointment_id">  
+                                <div v-if="appointment" class="appointment-client small" @click="selectAppointment(appointment)" style="cursor: pointer;">
 
                                     <div class="fw-bold" :title="appointment.patient_cf">
 
@@ -221,7 +224,7 @@ export default defineComponent({
             </table>
         </div>
 
-        <div v-if="isModalOpen" class="modal show d-block" @click="chiudiModal">
+        <div v-if="isModalOpen" class="modal show d-block" @click="closeModal">
     
             <div class="modal-dialog" style="max-width: 90%; width: 90%; margin: auto;" @click.stop>
                 <div class="modal-content modal-dialog-centered">
@@ -263,8 +266,8 @@ export default defineComponent({
                     </div>
                     
                     <div class="my-3" style="width: 95%">
-                        <button type="button" id="DELETE" @click="cancellaAppuntamento" :disabled="userRole !== 'admin'">Cancella</button>
-                        <button type="button" id="PUT" @click="modificaAppuntamento" :disabled="userRole !== 'admin'">Modifica</button>
+                        <button type="button" id="DELETE" @click="deleteAppointment" :disabled="userRole !== 'admin'">Cancella</button>
+                        <button type="button" id="PUT" @click="updateAppointment" :disabled="userRole !== 'admin'">Modifica</button>
                     </div>
             
         </div>
